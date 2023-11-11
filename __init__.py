@@ -5,16 +5,31 @@ import torch
 import torchaudio
 import sys
 from .utils import to_mono, to_spec, complex_to_real_imag, resize_time_axis_in_spec, real_imag_to_complex, to_wave
+import zipfile
+import shutil
 
 sys.dont_write_bytecode = True
 
+# CONSTANTS
 str_device = 'cuda' if torch.cuda.is_available() else 'cpu'
+str_fileWeights = 'weights.pth'
+
+
 
 listFuction_preProcess = [to_mono, to_spec, complex_to_real_imag, resize_time_axis_in_spec]
 listFuction_postProcess = [real_imag_to_complex, to_wave]
 
-str_pathModule = os.path.dirname(__file__)
-str_pathWeights = os.path.join(str_pathModule, 'model_epoch_00002.pth')
+
+def get_weights_file():
+  str_pathModule = os.path.dirname(__file__)
+  list_filesModule = os.listdir(str_pathModule)
+
+  if str_fileWeights  not in list_filesModule: # check if file is in module folder  
+    raise FileExistsError('Weights file dont exists. Looking for {} or {} in {}'.format(str_fileWeights, str_pathModule))
+
+  str_pathWeights = os.path.join(str_pathModule, str_fileWeights)
+  return str_pathWeights
+
 
 def preProcess(tensor_audio, device=str_device): 
   tensor_audio.to(device)
@@ -37,6 +52,8 @@ def load_audio(str_pathAudio):
   else:
     return torchaudio.load(str_pathAudio)
 
-model = unet().to(str_device)
-model.load_state_dict(torch.load(str_pathWeights, map_location=str_device))
-model.eval()
+def model():
+  model = unet().to(str_device)
+  model.load_state_dict(torch.load(get_weights_file(), map_location=str_device))
+  model.eval()
+  return model

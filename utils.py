@@ -1,7 +1,7 @@
 import os
 import torch
 import torchaudio
-from _myPath import Path
+from .__myModule import Path
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
