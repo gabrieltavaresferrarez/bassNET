@@ -69,3 +69,19 @@ tensor_audioOut = bassNET.postProcess(tensor_out)
 ```
 
 The `tensor_audioOut` variable contains an audio Tensor that may be displayed using the same signal rate as loaded in `int_sr`
+
+Finally, you can save the audio as a **.wav** file
+
+```
+str_pathAudioOut = 'bassNetOut.wav'
+bassNET.save_audio(tensor_audioOut, str_pathAudioOut)
+```
+
+To make things easier, you can use the **fullProcess** method, wich wraps all this functions in one
+
+```
+str_pathAudioIn = 'bassNetIn.wav'
+str_pathAudioOut = 'bassNetOut.wav'
+
+bassNET.fullProcess(str_pathAudioIn, str_pathAudioOut, device='cpu')
+```
