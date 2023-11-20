@@ -64,3 +64,13 @@ def model():
   model.load_state_dict(torch.load(get_weights_file(), map_location=str_device))
   model.eval()
   return model
+
+def fullProcess(str_pathAudioIn:str, str_pathAudioOut:str, device:str='cpu'):
+  model_unet = model()
+  model_unet = model_unet.to('cpu')
+
+  tensor_audio, int_sr = load_audio(str_pathAudioIn)
+  tensor_audioProcessed = preProcess(tensor_audio, device=device)
+  tensor_out = model_unet(tensor_audioProcessed)
+  tensor_audioOut = postProcess(tensor_out)
+  save_audio(tensor_audioOut, str_pathAudioOut, normalize=True, sample_rate = int_sr)
