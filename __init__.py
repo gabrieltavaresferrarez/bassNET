@@ -52,6 +52,13 @@ def load_audio(str_pathAudio):
   else:
     return torchaudio.load(str_pathAudio)
 
+def save_audio(tensor_audio:torch.Tensor, str_pathOut:str, normalize:bool=False, sample_rate:int=44_100):
+  tensor_audio = tensor_audio if len(tensor_audio.size()) == 2 else tensor_audio.unsqueeze(dim=0) # convert to correct audio size (2 Dims)
+  if normalize:
+    tensor_max = torch.max(abs(tensor_audio.max()),abs(tensor_audio.min()))
+    tensor_audio = tensor_audio/tensor_max
+  torchaudio.save(str_pathOut, tensor_audio.to('cpu'), sample_rate)
+
 def model():
   model = unet().to(str_device)
   model.load_state_dict(torch.load(get_weights_file(), map_location=str_device))
