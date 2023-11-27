@@ -85,3 +85,37 @@ str_pathAudioOut = 'bassNetOut.wav'
 
 bassNET.fullProcess(str_pathAudioIn, str_pathAudioOut, device='cpu')
 ```
+
+# waveFormGenerator
+
+**waveFormGenerator** is bassNET submodule that takes an wav audio file, a csv notes file and converts it to an png image with the wave form and the notes played
+
+Here is an example of how the module is used
+
+```
+str_pathAudio = 'musica teste.wav'
+str_pathNotes = 'saida script.txt'
+str_pathImage = 'waveFomrNotes.png'
+
+waveFormGenerator.generateImage(str_pathAudio, str_pathNotes, str_pathImage, pixelsPerSecond = 100, heightImage = 100)
+```
+
+The csv notes file must follow this example:
+
+```
+B1 ;0.037778;0.380454
+B1 ;0.995397;1.590091
+B1 ;2.566803;2.871224
+B1 ;2.959025;3.224671
+Gs1;3.524331;4.127800
+Gs1;4.145986;4.436077
+Fs1;5.108481;6.027664
+B1 ;6.053333;6.661451
+B1 ;7.625351;7.778753
+B1 ;8.149456;8.576440
+Gs1;8.576440;9.823129
+```
+
+The generated image will be like this:
+
+![alt text](waveFormExample.png)
