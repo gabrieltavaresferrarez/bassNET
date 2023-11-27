@@ -77,6 +77,8 @@ str_pathAudioOut = 'bassNetOut.wav'
 bassNET.save_audio(tensor_audioOut, str_pathAudioOut)
 ```
 
+## Full Process
+
 To make things easier, you can use the **fullProcess** method, wich wraps all this functions in one
 
 ```
